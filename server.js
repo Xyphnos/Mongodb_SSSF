@@ -12,14 +12,18 @@ const catRoute = require('./routes/catRoute');
 const userRoute = require('./routes/userRoute');
 const authRoute = require('./routes/authRoute');
 
+server.use('/user', userRoute);
 
 server.use(cors());
 server.use(bodyParser.json()); // for parsing application/json
 server.use(bodyParser.urlencoded({extended: true})); // for parsing application/x-www-form-urlencoded
 
+
 server.use('/auth', authRoute);
+/*
 server.use('/cat', passport.authenticate('jwt', {session: false}), catRoute);
 server.use('/user', passport.authenticate('jwt', {session: false}), userRoute);
+*/
 
 db.on('connected', () => {
     server.listen(port, () => console.log(`App listening on port ${port}!`));

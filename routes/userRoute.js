@@ -20,9 +20,9 @@ router.post('/user', async (req, res) => {
 });
 
 
-/*router.post('/', (req, res) => {
+router.post('/', (req, res) => {
     res.send('Log successful')
-});*/
+});
 
 router.put('/', (req, res) => {
     res.send('With this endpoint you can edit users.');
