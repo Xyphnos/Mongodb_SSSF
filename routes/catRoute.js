@@ -5,7 +5,8 @@ const multer  = require('multer');
 const passport = require('passport');
 const upload = multer({ dest: 'uploads/' });
 const router = express.Router();
-const catController = require('../controllers/catController.js');
+const catModel = require('../models/catModel');
+const catController = require('../controllers/catController');
 
 passport.authenticate('jwt', {session: false});
 
@@ -19,10 +20,7 @@ router.post('/uploads', upload.single('file_name'), (req, res) => {
 });
 
 router.post('/cat', async(req, res) => {
-    const mycat = await cat.create({ name: 'garfield', age: 7, owner: '5e7b0ae1f304f22815649e05' });
-    //const myuser = find
-    //myuser.cats.push(mycat._id);
-    //save()
+    const mycat = await catModel.create({ name: 'garfield', age: 7, owner: '5e7b0ae1f304f22815649e05' });
     res.send(`cat created with id: ${mycat._id}`);
 });
 

@@ -13,6 +13,7 @@ const userRoute = require('./routes/userRoute');
 const authRoute = require('./routes/authRoute');
 
 server.use('/user', userRoute);
+server.use('/cat', catRoute);
 
 server.use(cors());
 server.use(bodyParser.json()); // for parsing application/json

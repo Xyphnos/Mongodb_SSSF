@@ -1,4 +1,5 @@
 'use strict';
+const mongoose = require('mongoose');
 const users = [
     {
         id: '1',
@@ -35,6 +36,18 @@ const getUserLogin = async (params) => {
         console.log('error', e.message);
     }
 };
+
+const Schema = mongoose.Schema;
+
+const userSchema = new Schema({
+    name: String,
+    email: String,
+    password: String,
+    cats: [ mongoose.ObjectId ]
+});
+
+module.exports = mongoose.model('user', userSchema);
+
 module.exports = {
     users,
     getUserLogin,
