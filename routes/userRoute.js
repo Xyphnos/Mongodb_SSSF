@@ -14,9 +14,15 @@ router.get('/list', userController.user_list_get);
 
 router.get('/:id', userController.user_get);
 
-router.post('/', (req, res) => {
-    res.send('Log successful')
+app.post('/user', async (req, res) => {
+    const myuser = await user.create({ name: 'Mary', email: 'm@met.fi', password: 'abc' });
+    res.send(`user created with id ${myuser._id}`);
 });
+
+
+/*router.post('/', (req, res) => {
+    res.send('Log successful')
+});*/
 
 router.put('/', (req, res) => {
     res.send('With this endpoint you can edit users.');
