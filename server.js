@@ -12,12 +12,13 @@ const catRoute = require('./routes/catRoute');
 const userRoute = require('./routes/userRoute');
 const authRoute = require('./routes/authRoute');
 
-server.use('/user', userRoute);
-server.use('/cat', catRoute);
-
 server.use(cors());
 server.use(bodyParser.json()); // for parsing application/json
 server.use(bodyParser.urlencoded({extended: true})); // for parsing application/x-www-form-urlencoded
+
+server.use('/user', userRoute);
+server.use('/cat', catRoute);
+
 
 
 server.use('/auth', authRoute);

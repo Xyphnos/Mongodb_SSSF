@@ -5,7 +5,7 @@ const multer  = require('multer');
 const passport = require('passport');
 const upload = multer({ dest: 'uploads/' });
 const router = express.Router();
-const catModel = require('../models/catModel');
+const cat = require('../models/cat');
 const catController = require('../controllers/catController');
 
 passport.authenticate('jwt', {session: false});
@@ -19,18 +19,48 @@ router.post('/uploads', upload.single('file_name'), (req, res) => {
     res.send('upload successful');
 });
 
-router.post('/cat', async(req, res) => {
-    const mycat = await catModel.create({ name: 'garfield', age: 7, owner: '5e7b0ae1f304f22815649e05' });
-    res.send(`cat created with id: ${mycat._id}`);
-});
+router.route('/')
+    .post(async(req, res) => {
+        try {
+            const creCat = await cat.create({
+                name: req.body.name,
+                age: req.body.age,
+                gender: req.body.gender,
+                color: req.body.color,
+                weight: req.body.weight,
+            });
+            res.send(`cat created with id: ${creCat._id}`);
+        }catch(e) {
+            console.log(e);
+        }
+
+    })
 
 
-router.put('/', (req, res) => {
-    res.send('With this endpoint you can edit cats.');
-});
+    .put(async(req, res) => {
+        try{
+        const putCat = await cat.updateOne({
+            name: req.body.name,
+            age: req.body.age,
+            gender: req.body.gender,
+            color: req.body.color,
+            weight: req.body.weight,
+        });
+        res.send(`cat edited with id: ${putCat._id}`);
+    }catch(e) {
+        console.log('error');
+    }
+    })
 
-router.delete('/', (req, res) => {
-    res.send('With this endpoint you can delete cats.');
-});
+
+    .delete(async(req, res) => {
+        try{
+        console.log(`cat edited with id: ${req.body._id}`);
+        await cat.deleteOne({_id: req.body._id});
+        res.send('Cat deleted.');
+    }catch(e) {
+        console.log('error');
+    }
+    });
 
 module.exports = router;
