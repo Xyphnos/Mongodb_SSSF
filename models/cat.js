@@ -6,9 +6,13 @@ const Schema = mongoose.Schema;
 const catSchema = new Schema({
     name: String,
     age: Number,
+    owner: {
+        type: mongoose.ObjectId,
+        ref: 'User',
+    },
     gender: {
         type: String,
-        enum: ['Male', 'Female', 'Unkown'],
+        enum: ['male', 'female', 'unkown'],
         required: true,
     },
     color: String,

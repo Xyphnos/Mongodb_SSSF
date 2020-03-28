@@ -20,11 +20,19 @@ router.post('/uploads', upload.single('file_name'), (req, res) => {
 });
 
 router.route('/')
+    .get(async (req, res) => {
+        try {
+            res.send(await cat.find().populate('owner'));
+        } catch(e){
+            console.log(e);
+        }
+    })
     .post(async(req, res) => {
         try {
             const creCat = await cat.create({
                 name: req.body.name,
                 age: req.body.age,
+                owner: req.body.owner,
                 gender: req.body.gender,
                 color: req.body.color,
                 weight: req.body.weight,
@@ -42,24 +50,25 @@ router.route('/')
         const putCat = await cat.updateOne({
             name: req.body.name,
             age: req.body.age,
+            owner: req.body.owner,
             gender: req.body.gender,
             color: req.body.color,
             weight: req.body.weight,
         });
         res.send(`cat edited with id: ${putCat._id}`);
     }catch(e) {
-        console.log('error');
+        console.log(e);
     }
     })
 
 
     .delete(async(req, res) => {
         try{
-        console.log(`cat edited with id: ${req.body._id}`);
+        console.log(`deleting cat with id: ${req.body._id}`);
         await cat.deleteOne({_id: req.body._id});
         res.send('Cat deleted.');
     }catch(e) {
-        console.log('error');
+        console.log(e);
     }
     });
 
