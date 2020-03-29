@@ -8,7 +8,7 @@ const catSchema = new Schema({
     age: Number,
     owner: {
         type: mongoose.ObjectId,
-        ref: 'User',
+        ref: 'user',
     },
     gender: {
         type: String,
