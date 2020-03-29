@@ -2,24 +2,59 @@
 // userController
 const userModel = require('../models/userModel');
 
-const users = userModel.users;
 
-const user_list_get = (req, res) => {
-    res.json(users);
+const user_list_get = async(req, res) => {
+    try {
+        res.json(
+            await userModel.find()
+        )
+    }catch(e){
+        console.log(e)
+    }
 };
 
-const user_get = (req, res) =>{
-    console.log('user id parameter', req.params.id);
-    const user = users.filter(user => user.id === req.params.id).pop();
-    delete user.password;
-    // use .find instead of .filter to leave pop() out
-    res.json(user);
-    //get cat by id
+const user_get = async (req, res) =>{
+    try {
+        const getuser = await userModel.findById(req.query.id);
+        res.json(getuser);
+    } catch (e) {
+        console.error('user_get', e);
+    }
 };
 
-const user_post = (req, res) => {
-    console.log('data from form', req.body);
-    res.send('With this endpoint you can add users');
+const user_post = async (req, res) => {
+        try {
+            const newUser = await userModel.create({
+                name: req.body.name,
+                email: req.body.email,
+                password: req.body.password
+            });
+            res.send(`New user with id ${newUser._id} created.`)
+        } catch(e){
+            console.log(e)
+        }
+};
+const user_edit = async (req, res) => {
+    try {
+        const upUser = await userModel.updateOne({
+            name: req.body.name,
+            email: req.body.email,
+            password: req.body.password
+        });
+        res.send(`User with id ${upUser._id} edited.`);
+    } catch(e){
+        console.log(e)
+    }
+};
+const user_delete = async (req, res) => {
+    try{
+        console.log(`deleting user with id: ${req.query._id}`);
+        await userModel.deleteOne({_id: req.query._id});
+        res.send('user deleted.');
+    }catch(e) {
+        console.log(e);
+    }
+    res.send('With this endpoint you can delete users');
 };
 
 
@@ -27,4 +62,6 @@ module.exports = {
     user_list_get,
     user_get,
     user_post,
+    user_edit,
+    user_delete,
 };

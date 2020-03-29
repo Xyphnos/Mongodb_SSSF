@@ -22,7 +22,11 @@ router.post('/uploads', upload.single('file_name'), (req, res) => {
 router.route('/')
     .get(async (req, res) => {
         try {
-            res.send(await cat.find().populate('owner'));
+            res.send(
+                await cat
+                    .find()
+                    .populate('owner')
+            );
         } catch(e){
             console.log(e);
         }
